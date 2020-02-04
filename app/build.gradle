@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
 
+apply plugin: 'kotlin-kapt'
+
 apply plugin: 'kotlin-android-extensions'
 
 android {
@@ -21,6 +23,24 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    androidExtensions {
+        experimental = true
+    }
+
+
 }
 
 dependencies {
@@ -32,4 +52,28 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation 'com.github.ttmagic:basemvvm:master-SNAPSHOT'
+
+    implementation 'com.google.android.material:material:1.2.0-alpha04'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'  //ViewModel + LiveData
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"   //coroutines for vm
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"    //coroutines for activity/fragments
+
+    implementation "androidx.navigation:navigation-fragment-ktx:2.2.0"  //Jetpack Navigation
+    implementation "androidx.navigation:navigation-ui-ktx:2.2.0"
+
+    implementation "androidx.room:room-runtime:2.2.3"   //Room
+    kapt "androidx.room:room-compiler:2.2.3"
+    implementation "androidx.room:room-ktx:2.2.3"
+
+    implementation 'com.google.code.gson:gson:2.8.6'
+    //Retrofit2
+    implementation "com.squareup.retrofit2:retrofit:2.6.2"
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
+
+    //Okhttp3
+    implementation "com.squareup.okhttp3:okhttp:4.3.0"
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.3.0'
+
 }
