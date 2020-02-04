@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.ttmagic.corona.ui.statistic.StatisticVm" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="2dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:text="Thống kê dịch Corona tại Việt Nam"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvConfirmedTotalTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1.5"
+                android:text="Tổng số ca nhiễm"
+                app:layout_constraintEnd_toStartOf="@+id/tvRecoveredTotalTitle"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+            <TextView
+                android:id="@+id/tvRecoveredTotalTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:text="Tổng số đã phục hồi"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/tvConfirmedTotalTitle"
+                app:layout_constraintTop_toTopOf="@id/tvConfirmedTotalTitle" />
+
+            <TextView
+                android:id="@+id/tvConfirmedTotal"
+                style="@style/TextAppearance.MaterialComponents.Headline4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:text="@{viewModel.totalConfirmed.toString()}"
+                android:textColor="@color/colorRed"
+                app:layout_constraintEnd_toEndOf="@+id/tvConfirmedTotalTitle"
+                app:layout_constraintStart_toStartOf="@+id/tvConfirmedTotalTitle"
+                app:layout_constraintTop_toBottomOf="@+id/tvConfirmedTotalTitle"
+                tools:text="6" />
+
+            <TextView
+                android:id="@+id/tvRecoveredTotal"
+                style="@style/TextAppearance.MaterialComponents.Headline4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:text="@{viewModel.totalRecovered.toString()}"
+                android:textColor="@color/colorGreen"
+                app:layout_constraintEnd_toEndOf="@+id/tvRecoveredTotalTitle"
+                app:layout_constraintStart_toStartOf="@+id/tvRecoveredTotalTitle"
+                app:layout_constraintTop_toBottomOf="@+id/tvRecoveredTotalTitle"
+                tools:text="9" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>
