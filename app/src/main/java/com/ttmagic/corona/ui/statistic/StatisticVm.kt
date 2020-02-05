@@ -6,7 +6,6 @@ import androidx.lifecycle.Transformations
 import com.base.mvvm.BaseViewModel
 import com.base.mvvm.onSucceed
 import com.ttmagic.corona.model.Province
-import com.ttmagic.corona.model.ReqBody
 import com.ttmagic.corona.repo.network.network
 import com.ttmagic.corona.util.Const
 
@@ -22,9 +21,8 @@ class StatisticVm(app: Application) : BaseViewModel(app) {
         getListProvinces()
     }
 
-    private fun getListProvinces() = coroutines {
-        val reqBody = ReqBody("provinces", Const.QUERY_PROVINCES)
-        network().getProvinces(reqBody).onSucceed {
+    fun getListProvinces() = coroutines {
+        network().getProvinces(Const.provinceQuery).onSucceed {
             listProvinces.value = it.data.provinces
         }
     }

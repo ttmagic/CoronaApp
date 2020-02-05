@@ -13,7 +13,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:scrollbars="vertical">
 
         <LinearLayout
@@ -25,50 +25,66 @@
                 layout="@layout/view_summary"
                 bind:viewModel="@{viewModel}" />
 
-            <LinearLayout
-                android:id="@+id/layoutTitle"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingStart="15dp"
-                android:paddingTop="15dp"
-                android:paddingEnd="15dp">
+                android:layout_margin="15dp"
+                android:visibility="gone"
+                app:cardCornerRadius="10dp"
+                tools:visibility="visible">
 
-                <TextView
-                    android:id="@+id/tvProvince"
-                    style="@style/TextAppearance.MaterialComponents.Caption"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:padding="15dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.5"
-                    android:text="Tỉnh/Thành phố" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tvConfirmed"
-                    style="@style/TextAppearance.MaterialComponents.Caption"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Nhiễm bệnh" />
+                    <LinearLayout
+                        android:id="@+id/layoutTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="15dp"
+                        android:paddingEnd="15dp">
 
-                <TextView
-                    android:id="@+id/tvRecovered"
-                    style="@style/TextAppearance.MaterialComponents.Caption"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Bình phục" />
-            </LinearLayout>
+                        <TextView
+                            android:id="@+id/tvProvince"
+                            style="@style/TextAppearance.MaterialComponents.Caption"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.5"
+                            android:text="Tỉnh/Thành phố" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvStatistic"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:overScrollMode="never"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_statistic" />
+                        <TextView
+                            android:id="@+id/tvConfirmed"
+                            style="@style/TextAppearance.MaterialComponents.Caption"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Nhiễm bệnh" />
+
+                        <TextView
+                            android:id="@+id/tvRecovered"
+                            style="@style/TextAppearance.MaterialComponents.Caption"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Bình phục" />
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvStatistic"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:overScrollMode="never"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_statistic" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

@@ -6,8 +6,10 @@ import android.view.MenuItem
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.base.mvvm.BaseActivity
+import com.base.util.Bus
 import com.base.util.gone
 import com.base.util.show
+import com.ttmagic.corona.util.Const
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
@@ -30,6 +32,7 @@ class MainActivity : BaseActivity() {
         when (item.itemId) {
             R.id.menuNews -> mNavController.navigate(R.id.newsFragment)
             R.id.menuStatistics -> mNavController.navigate(R.id.statisticFragment)
+            R.id.menuRefresh -> Bus.get(Const.Bus.REFRESH).postValue(true)
         }
         return true
     }

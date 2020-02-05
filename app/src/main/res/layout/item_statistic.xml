@@ -44,7 +44,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@{item.recovered}"
-            android:textColor="@color/colorGreen"
+            android:textColor="@color/colorBlue"
             tools:text="@tools:sample/us_zipcodes" />
     </LinearLayout>
 </layout>
