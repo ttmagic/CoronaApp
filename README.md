@@ -1,5 +1,5 @@
 # CoronaApp
-Sample App using BaseMVVM, showing news related to Corona Disease and its statistic in Vietnam.
+Sample App using [BaseMVVM](https://github.com/ttmagic/BaseMVVM), showing news related to Corona disease and its statistic in Vietnam.
 
 Language: Kotlin
 
