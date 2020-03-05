@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.base.mvvm.BaseViewModel
+import com.base.mvvm.onFailed
 import com.base.mvvm.onSucceed
 import com.ttmagic.corona.model.Province
 import com.ttmagic.corona.repo.network.network
@@ -24,6 +25,14 @@ class StatisticVm(app: Application) : BaseViewModel(app) {
     fun getListProvinces() = coroutines {
         network().getProvinces(Const.provinceQuery).onSucceed {
             listProvinces.value = it.data.provinces
+        }.onFailed {
+            //Dummy data.
+            listProvinces.value = arrayListOf(
+                Province("11", "0", "Vĩnh Phúc", "11"),
+                Province("3", "0", "Hồ Chí Minh", "3"),
+                Province("1", "0", "Khánh Hòa", "1"),
+                Province("1", "0", "Thanh Hóa", "1")
+            )
         }
     }
 }
