@@ -5,8 +5,6 @@ import com.ttmagic.corona.BR
 import com.ttmagic.corona.R
 import com.ttmagic.corona.model.Province
 
-class ProvinceAdapter : BaseAdapter<Province>() {
+class ProvinceAdapter : BaseAdapter<Province>(R.layout.item_statistic) {
     override fun brVariableId(): Int = BR.item
-
-    override fun layoutId(): Int = R.layout.item_statistic
 }

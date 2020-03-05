@@ -14,14 +14,13 @@ import com.ttmagic.corona.util.Const
 import kotlinx.android.synthetic.main.fragment_news.*
 
 
-class NewsFragment : BaseFragment<NewsVm, FragmentNewsBinding>(), BaseAdapter.DefaultClickListener {
+class NewsFragment : BaseFragment<NewsVm, FragmentNewsBinding>(R.layout.fragment_news),
+    BaseAdapter.DefaultClickListener {
     override fun brVariableId(): Int = BR.viewModel
-
-    override fun layoutId(): Int = R.layout.fragment_news
 
     private val adapter = NewsAdapter(this)
 
-    override fun initView() {
+    override fun initView(binding: FragmentNewsBinding) {
         rvNews.adapter = adapter
     }
 
@@ -32,16 +31,16 @@ class NewsFragment : BaseFragment<NewsVm, FragmentNewsBinding>(), BaseAdapter.De
     }
 
     override fun observeData() {
-        mViewModel.loading.observe {
+        viewModel.isLoading.observe {
             (activity as MainActivity?)?.showLoading(it)
         }
 
-        mViewModel.listNews.observe {
+        viewModel.listNews.observe {
             adapter.submitList(it as MutableList<News>)
         }
 
         Bus.get(Const.Bus.REFRESH).observe {
-            mViewModel.getNews()
+            viewModel.getNews()
         }
     }
 }

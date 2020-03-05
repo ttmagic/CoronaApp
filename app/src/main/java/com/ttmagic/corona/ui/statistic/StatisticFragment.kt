@@ -12,31 +12,29 @@ import com.ttmagic.corona.model.Province
 import com.ttmagic.corona.util.Const
 import kotlinx.android.synthetic.main.fragment_statistic.*
 
-class StatisticFragment : BaseFragment<StatisticVm, FragmentStatisticBinding>() {
-
+class StatisticFragment :
+    BaseFragment<StatisticVm, FragmentStatisticBinding>(R.layout.fragment_statistic) {
     override fun brVariableId(): Int = BR.viewModel
-
-    override fun layoutId(): Int = R.layout.fragment_statistic
 
     private val adapter = ProvinceAdapter()
 
-    override fun initView() {
+    override fun initView(binding: FragmentStatisticBinding) {
         rvStatistic.addItemDividers()
         rvStatistic.adapter = adapter
     }
 
     override fun observeData() {
-        mViewModel.loading.observe{
+        viewModel.isLoading.observe {
             (activity as MainActivity?)?.showLoading(it)
         }
 
-        mViewModel.listProvinces.observe {
+        viewModel.listProvinces.observe {
             if (it.isNotEmpty()) cvDetail.show()
             adapter.submitList(it as MutableList<Province>)
         }
 
         Bus.get(Const.Bus.REFRESH).observe {
-            mViewModel.getListProvinces()
+            viewModel.getListProvinces()
         }
     }
 }
