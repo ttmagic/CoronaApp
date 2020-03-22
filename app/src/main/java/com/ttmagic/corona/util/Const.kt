@@ -1,21 +1,26 @@
 package com.ttmagic.corona.util
 
-import com.ttmagic.corona.model.ReqBody
+import com.google.android.gms.maps.model.LatLng
 
 object Const {
-    const val BASE_URL = "https://corona-api.kompa.ai/"
+    const val DB_NAME = "com.ttmagic.corona"
+    const val BASE_URL = "http://smartcity.hanoi.gov.vn/Home/"
+    val hanoi = LatLng(21.028511, 105.804817)
 
-    val provinceQuery = ReqBody(
-        "provinces",
-        "query provinces {\n provinces {\n Province_Name\n Confirmed\n Deaths\n Recovered\n}\n}\n"
-    )
+    const val MAP_UPDATE_INTERVAL = 3 * 60 * 60 * 1000      //3 Hours
+    const val STATS_UPDATE_INTERVAL = 1 * 60 * 60 * 1000    //1 Hours
 
-    val newsQuery = ReqBody(
-        "topTrueNews",
-        "query topTrueNews {\n topTrueNews {title\n content\n url\n siteName\n publishedDate\n picture\n }\n}\n"
-    )
+
+    object Pref {
+        const val LAST_USER_POSITION = "LAST_USER_POSITION"
+        const val LAST_UPDATE_MAP = "LAST_UPDATE_MAP"
+        const val LAST_UPDATE_STATS_VN = "LAST_UPDATE_STATS_VN"
+        const val LAST_UPDATE_STATS_WORLD = "LAST_UPDATE_STATS_WORLD"
+
+        const val SUMMARY_INFO = "SUMMARY_INFO"
+    }
 
     object Bus {
-        const val REFRESH = "refresh"
+        const val GPS = "gps"
     }
 }

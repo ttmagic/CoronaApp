@@ -3,16 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph.xml"
-    app:startDestination="@id/statisticFragment">
+    app:startDestination="@id/mapFragment">
 
     <fragment
         android:id="@+id/newsFragment"
-        android:name="com.ttmagic.corona.ui.news.NewsFragment"
+        android:name="com.ttmagic.corona.ui.statsworld.StatsWorldFragment"
         android:label="NewsFragment"
-        tools:layout="@layout/fragment_news" />
+        tools:layout="@layout/fragment_stats_world" />
     <fragment
         android:id="@+id/statisticFragment"
-        android:name="com.ttmagic.corona.ui.statistic.StatisticFragment"
+        android:name="com.ttmagic.corona.ui.statsvn.StatsVnFragment"
         android:label="StatisticFragment"
-        tools:layout="@layout/fragment_statistic" />
+        tools:layout="@layout/fragment_stats_vn" />
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.ttmagic.corona.ui.map.MapFragment"
+        android:label="MapFragment"
+        tools:layout="@layout/fragment_map" />
 </navigation>

@@ -2,9 +2,6 @@ package com.ttmagic.corona.model
 
 import com.base.mvvm.Entity
 
-data class NewsResponse(
-    val `data`: Data
-)
 
 data class News(
     val content: String,

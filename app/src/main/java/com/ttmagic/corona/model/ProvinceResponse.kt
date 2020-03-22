@@ -2,9 +2,6 @@ package com.ttmagic.corona.model
 
 import com.base.mvvm.Entity
 
-data class ProvinceResponse(
-    val `data`: Data
-)
 
 data class Province(
     val Confirmed: String,

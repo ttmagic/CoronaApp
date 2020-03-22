@@ -1,50 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="item"
-            type="com.ttmagic.corona.model.Province" />
+            type="com.ttmagic.corona.model.StatsVn" />
     </data>
 
     <LinearLayout
-        android:background="?selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
         android:orientation="horizontal"
-        android:padding="15dp">
+        android:paddingStart="15dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
 
         <TextView
-            android:id="@+id/tvProvince"
             style="@style/TextAppearance.MaterialComponents.Subtitle1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:text="@{item.province_Name}"
+            android:layout_weight="2"
+            android:text="@{item.city}"
             tools:text="@tools:sample/cities" />
 
         <TextView
-            android:id="@+id/tvConfirmed"
             style="@style/TextAppearance.MaterialComponents.Subtitle1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@{item.confirmed}"
-            android:textColor="@color/colorRed"
+            android:textColor="@color/colorBlue"
+            app:textNumber="@{item.cases}"
+
             tools:text="@tools:sample/us_zipcodes" />
 
         <TextView
-            android:id="@+id/tvRecovered"
             style="@style/TextAppearance.MaterialComponents.Subtitle1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@{item.recovered}"
-            android:textColor="@color/colorBlue"
+            android:textColor="@color/colorRed"
+            app:textNumber="@{item.deaths}"
             tools:text="@tools:sample/us_zipcodes" />
     </LinearLayout>
 </layout>

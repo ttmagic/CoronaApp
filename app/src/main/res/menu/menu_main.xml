@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/menuRefresh"
-        android:icon="@drawable/ic_refresh"
-        android:title="Tải lại"
-        app:showAsAction="always" />
+        android:id="@+id/mapFragment"
+        android:icon="@drawable/ic_map"
+        android:title="Bản đồ" />
 
     <item
-        android:id="@+id/menuStatistics"
-        android:title="Thống kê" />
+        android:id="@+id/statisticFragment"
+        android:icon="@drawable/ic_statistic"
+        android:title="Việt Nam" />
 
     <item
-        android:id="@+id/menuNews"
-        android:title="Tin tức" />
+        android:id="@+id/newsFragment"
+        android:icon="@drawable/ic_earth"
+        android:title="Thế giới" />
 </menu>
