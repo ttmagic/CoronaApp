@@ -3,6 +3,12 @@ package com.ttmagic.corona.ui.map
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
+import android.graphics.Typeface
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
@@ -104,11 +110,14 @@ class MapFragment : BaseFragment<MapVm, FragmentMapBinding>(R.layout.fragment_ma
                 }
                 val title = "Trường hợp: ${it.Title}"
                 var snippet = "Địa chỉ: ${it.Address}"
-                it.IsolateDate?.let { date ->
-                    snippet += "\nNgày cách ly: $date"
+                if (!it.IsolateDate.isNullOrBlank()) {
+                    snippet += "\nNgày cách ly: ${it.IsolateDate.formatDate("MM/dd/yyyy")}"
                 }
-                it.Visits?.let { visit ->
-                    snippet += "\nLộ trình:\n${visit.replace("<br>", "\n".replace("</br>", ""))}"
+                if (!it.Visits.isNullOrBlank()) {
+                    snippet += "\nLộ trình:\n${it.Visits.replace(
+                        "<br>",
+                        "\n".replace("</br>", "")
+                    )}"
                 }
 
                 val marker = MarkerOptions().position(LatLng(lat, lng))
@@ -130,7 +139,7 @@ class MapFragment : BaseFragment<MapVm, FragmentMapBinding>(R.layout.fragment_ma
                             val mark = MarkerOptions().position(LatLng(placeLat, placeLng))
                                 .icon(f0Visited)
                                 .title(title)
-                                .snippet(place.Timestamp?.formatDate() + ": " + place.Visits)
+                                .snippet(place.Timestamp?.formatDate("yyyy-MM-dd'T'HH:mm:ss") + ": " + place.Visits)
                             markers.add(mark)
                         }
                     }
@@ -213,17 +222,31 @@ class MapFragment : BaseFragment<MapVm, FragmentMapBinding>(R.layout.fragment_ma
  */
 class MyInfoWindow(private val context: Context) : GoogleMap.InfoWindowAdapter {
     override fun getInfoContents(marker: Marker): View {
-        val view = context.layoutInflater().inflate(R.layout.my_info_window, null, false)
-        view.tvTitle.text = marker.title
-        view.tvSnippet.text = marker.snippet
-        return view
+        return inflate(marker)
     }
 
     override fun getInfoWindow(marker: Marker): View {
-        val view = context.layoutInflater().inflate(R.layout.my_info_window, null, false)
-        view.tvTitle.text = marker.title
-        view.tvSnippet.text = marker.snippet
-        return view
+        return inflate(marker)
     }
 
+    private fun inflate(marker: Marker): View {
+        val view = context.layoutInflater().inflate(R.layout.my_info_window, null, false)
+        view.tvTitle.text = marker.title
+        val span = SpannableString(marker.snippet).apply {
+            highlight("Địa chỉ:")
+            highlight("Ngày cách ly:")
+            highlight("Lộ trình:")
+        }
+        view.tvSnippet.text = span
+        return view
+    }
+}
+
+private fun SpannableString.highlight(s: String): SpannableString {
+    if (!this.contains(s)) return this
+    val start = this.indexOf(s)
+    val end = start + s.length
+    this.setSpan(ForegroundColorSpan(Color.BLACK), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+    this.setSpan(StyleSpan(Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+    return this
 }

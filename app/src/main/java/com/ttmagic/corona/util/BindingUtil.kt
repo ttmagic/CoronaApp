@@ -1,22 +1,16 @@
 package com.ttmagic.corona.util
 
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.MultiTransformation
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.ttmagic.corona.R
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 //Input: "yyyy-MM-dd'T'HH:mm:ss"
-fun String?.formatDate(): String {
+fun String?.formatDate(input: String): String {
     if (this == null) return ""
     return try {
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+        val inputFormat = SimpleDateFormat(input, Locale.getDefault())
         val outputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val date = inputFormat.parse(this)
         outputFormat.format(date)
@@ -27,7 +21,7 @@ fun String?.formatDate(): String {
 
 @BindingAdapter("app:lastUpdate")
 fun TextView.setLastUpdate(millis: Long?) {
-    if (millis == null){
+    if (millis == null) {
         text = ""
         return
     }
