@@ -1,8 +1,8 @@
 package com.ttmagic.corona.ui.statsworld
 
+import androidx.lifecycle.Observer
 import com.base.mvvm.BaseFragment
 import com.base.util.addItemDividers
-import com.base.util.show
 import com.ttmagic.corona.BR
 import com.ttmagic.corona.MainActivity
 import com.ttmagic.corona.R
@@ -21,17 +21,20 @@ class StatsWorldFragment :
     override fun initView(binding: FragmentStatsWorldBinding) {
         rvStatistic.addItemDividers()
         rvStatistic.adapter = adapter
+        swipeRefreshLayout.setOnRefreshListener {
+            viewModel.getStatsWorld()
+        }
     }
 
 
     override fun observeData() {
-        viewModel.isLoading.observe {
+        viewModel.isLoading.observe(viewLifecycleOwner, Observer {
             (activity as MainActivity?)?.showLoading(it)
-        }
+        })
 
         viewModel.stats.observe {
-            if (it.isNotEmpty()) cvDetail.show()
-            adapter.submitList(it as MutableList<StatsWorld>)
+            adapter.submitList(it)
+            swipeRefreshLayout.setRefreshing(false)
         }
     }
 }

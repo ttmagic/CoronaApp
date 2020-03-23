@@ -33,7 +33,7 @@ class MainActivity : BaseActivity() {
             //Do nothing when reselected.
         }
 
-        val statsWorldVm = ViewModelProvider(this).get(StatsWorldVm::class.java)
+        ViewModelProvider(this).get(StatsWorldVm::class.java)
         //To trigger init method of StatsWorldVm
     }
 

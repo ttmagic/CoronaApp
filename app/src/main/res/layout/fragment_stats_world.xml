@@ -11,21 +11,16 @@
             type="com.ttmagic.corona.ui.statsworld.StatsWorldVm" />
     </data>
 
-    <RelativeLayout
+    <com.baoyz.widget.PullRefreshLayout
+        android:layout_marginTop="25dp"
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#F2F3F5">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:src="@drawable/bg_top" />
+        android:layout_height="match_parent">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="45dp"
+            android:paddingTop="25dp"
             android:scrollbars="vertical">
 
             <LinearLayout
@@ -47,7 +42,6 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginEnd="15dp"
                     android:layout_marginBottom="30dp"
-                    android:visibility="gone"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="1dp"
                     tools:visibility="visible">
@@ -118,6 +112,6 @@
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-    </RelativeLayout>
+    </com.baoyz.widget.PullRefreshLayout>
 
 </layout>

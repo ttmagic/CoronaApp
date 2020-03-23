@@ -26,7 +26,7 @@ class StatsWorldVm(app: Application) : BaseViewModel(app) {
         getStatsWorld()
     }
 
-    private fun getStatsWorld() = coroutines {
+    fun getStatsWorld() = coroutines {
         //Load from local db first.
         val localData = localDb.statsWorldDao().getAll()
         if (!localData.isNullOrEmpty()) {
@@ -57,5 +57,10 @@ class StatsWorldVm(app: Application) : BaseViewModel(app) {
     override fun onFragmentCreated() {
         super.onFragmentCreated()
         summary.postValue(Pref.getObj(Const.Pref.SUMMARY_INFO, Summary::class.java))
+    }
+
+    override fun onCoroutinesExceptions(error: Exception) {
+        super.onCoroutinesExceptions(error)
+        setLoading(false)
     }
 }

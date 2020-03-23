@@ -12,9 +12,11 @@ import android.text.style.StyleSpan
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import com.base.mvvm.BaseFragment
-import com.base.util.*
+import com.base.util.Bus
+import com.base.util.Pref
+import com.base.util.layoutInflater
+import com.base.util.onClick
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -27,13 +29,16 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.ttmagic.corona.BR
 import com.ttmagic.corona.R
 import com.ttmagic.corona.databinding.FragmentMapBinding
-import com.ttmagic.corona.model.Patient
 import com.ttmagic.corona.util.Const
 import com.ttmagic.corona.util.GpsUtils
-import com.ttmagic.corona.util.formatDate
 import kotlinx.android.synthetic.main.fragment_map.*
 import kotlinx.android.synthetic.main.my_info_window.view.*
-import kotlinx.coroutines.launch
+
+val f0Visited by lazy { BitmapDescriptorFactory.fromResource(R.drawable.ic_place) }
+val f0 by lazy { BitmapDescriptorFactory.fromResource(R.drawable.ic_f0) }
+val f1 by lazy { BitmapDescriptorFactory.fromResource(R.drawable.ic_f1) }
+val f2 by lazy { BitmapDescriptorFactory.fromResource(R.drawable.ic_f2) }
+val f3 by lazy { BitmapDescriptorFactory.fromResource(R.drawable.ic_f3) }
 
 class MapFragment : BaseFragment<MapVm, FragmentMapBinding>(R.layout.fragment_map),
     OnMapReadyCallback {
@@ -55,12 +60,12 @@ class MapFragment : BaseFragment<MapVm, FragmentMapBinding>(R.layout.fragment_ma
             isTiltGesturesEnabled = false
         }
         animateCameraMapView(false)
+        updateMapMarkers(viewModel.listMarkers.value)
     }
 
     override fun initView(binding: FragmentMapBinding) {
         (childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?)?.getMapAsync(this)
         checkLocationPermission(manually = false)
-
         btnMyLocation.setOnClickListener {
             checkLocationPermission(manually = true)
         }
@@ -77,79 +82,18 @@ class MapFragment : BaseFragment<MapVm, FragmentMapBinding>(R.layout.fragment_ma
             animateCameraMapView(true)
         })
 
-        viewModel.listDisplay.observe {
-            Logger.d("Observe: ${it?.size}")
-            it?.let {
-                lifecycleScope.launch {
-                    inflateOnMap(it)
-                }
-            }
+        viewModel.listMarkers.observe {
+            updateMapMarkers(it)
         }
     }
 
-    /**
-     * Display corresponding list patient on map.
-     */
-    private fun inflateOnMap(list: List<Patient>) {
-        val f0Visited = BitmapDescriptorFactory.fromResource(R.drawable.ic_place)
-        val f0 = BitmapDescriptorFactory.fromResource(R.drawable.ic_f0)
-        val f1 = BitmapDescriptorFactory.fromResource(R.drawable.ic_f1)
-        val f2 = BitmapDescriptorFactory.fromResource(R.drawable.ic_f2)
-        val f3 = BitmapDescriptorFactory.fromResource(R.drawable.ic_f3)
-
-        val markers = arrayListOf<MarkerOptions>()
-        list.forEach {
-            val lat = it.LocationLat?.toDoubleOrNull()
-            val lng = it.LocationLng?.toDoubleOrNull()
-            if (lat != null && lng != null) {
-                val icon = when (it.Status) {
-                    Const.STATUS_F0 -> f0
-                    Const.STATUS_F1 -> f1
-                    Const.STATUS_F2 -> f2
-                    else -> f3
-                }
-                val title = "Trường hợp: ${it.Title}"
-                var snippet = "Địa chỉ: ${it.Address}"
-                if (!it.IsolateDate.isNullOrBlank()) {
-                    snippet += "\nNgày cách ly: ${it.IsolateDate.formatDate("MM/dd/yyyy")}"
-                }
-                if (!it.Visits.isNullOrBlank()) {
-                    snippet += "\nLộ trình:\n${it.Visits.replace(
-                        "<br>",
-                        "\n".replace("</br>", "")
-                    )}"
-                }
-
-                val marker = MarkerOptions().position(LatLng(lat, lng))
-                    .icon(icon)
-                    .title(title)
-                    .snippet(snippet)
-
-                if (it.Status == Const.STATUS_F0 && !viewModel.filtersChecked[0]) {
-                    //Do nothing when not display F0 but item is F0.
-                } else {
-                    markers.add(marker)
-                }
-
-                if (it.Status == Const.STATUS_F0 && viewModel.filtersChecked[4]) {    //Only display places of F0 when setting true.
-                    it.Locations?.forEach { place ->
-                        val placeLat = place.Lat?.toDoubleOrNull()
-                        val placeLng = place.Lng?.toDoubleOrNull()
-                        if (placeLat != null && placeLng != null) {
-                            val mark = MarkerOptions().position(LatLng(placeLat, placeLng))
-                                .icon(f0Visited)
-                                .title(title)
-                                .snippet(place.Timestamp?.formatDate("yyyy-MM-dd'T'HH:mm:ss") + ": " + place.Visits)
-                            markers.add(mark)
-                        }
-                    }
-                }
+    private fun updateMapMarkers(markers: List<MarkerOptions>?) {
+        markers?.let {
+            if (::mMap.isInitialized) {
+                mMap.clear()
+                addCurrPosMarker()
+                it.forEach { item -> mMap.addMarker(item) }
             }
-        }
-        if (::mMap.isInitialized) {
-            mMap.clear()
-            addCurrPosMarker()
-            markers.forEach { mMap.addMarker(it) }
         }
     }
 

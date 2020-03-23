@@ -11,23 +11,16 @@ data class StatsWorldResponse(
 data class StatsWorld(
     @PrimaryKey
     val Id: String,
-    val ActiveCase: String,
-    val CasesHn: String,
+    val CountryOther: String?,
+    val TotalCases: String?,
+    val TotalDeadths: String?,
+    val TotalRecovered: String?,
     val CasesVn: String,
     val CasesWorld: String,
-    val CountryOther: String,
-    val DeadHn: String,
     val DeadVn: String,
     val DeadWorld: String,
-    val NewCases: String,
-    val NewDeaths: String,
-    val RecoveredHn: String,
     val RecoveredVn: String,
-    val RecoveredWorld: String,
-    val SeriosCritical: String,
-    val TotalCases: String,
-    val TotalDeadths: String,
-    val TotalRecovered: String
+    val RecoveredWorld: String
 ) : com.base.mvvm.Entity() {
     override val uniqueId: Any
         get() = Id

@@ -24,7 +24,7 @@ class StatsVnVm(app: Application) : BaseViewModel(app) {
         getStatsVn()
     }
 
-    private fun getStatsVn() = coroutines {
+    fun getStatsVn() = coroutines {
         //Load from local db first.
         val localData = localDb.statsVnDao().getAll()
         if (!localData.isNullOrEmpty()) {
@@ -45,6 +45,11 @@ class StatsVnVm(app: Application) : BaseViewModel(app) {
     override fun onFragmentCreated() {
         super.onFragmentCreated()
         summary.postValue(Pref.getObj(Const.Pref.SUMMARY_INFO, Summary::class.java))
+    }
+
+    override fun onCoroutinesExceptions(error: Exception) {
+        super.onCoroutinesExceptions(error)
+        setLoading(false)
     }
 
 }
