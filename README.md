@@ -11,6 +11,4 @@ Architecture: MVVM https://developer.android.com/jetpack/docs/guide
 
 ### Screenshots
 
-<img src="https://github.com/ttmagic/CoronaApp/blob/master/img1.jpg" width="300">
-
-<img src="https://github.com/ttmagic/CoronaApp/blob/master/img2.jpg" width="300">
+<img src="https://github.com/ttmagic/CoronaApp/blob/master/screenshots.jpg" width="900">
