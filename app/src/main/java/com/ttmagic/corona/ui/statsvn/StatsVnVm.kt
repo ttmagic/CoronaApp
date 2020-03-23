@@ -22,10 +22,6 @@ class StatsVnVm(app: Application) : BaseViewModel(app) {
 
     val summary =
         MutableLiveData<Summary>(Pref.getObj(Const.Pref.SUMMARY_INFO, Summary::class.java))
-    //val totalConfirmed = Transformations.map(stats) { it.sumBy { it.Cases.toInt() } }
-    //val totalRecovered = MutableLiveData<String>("17")
-    //val totalDeath = Transformations.map(stats) { it.sumBy { it.Deaths.toInt() } }
-
     val lastUpdate = MutableLiveData<Long>()
 
     init {

@@ -7,8 +7,8 @@ object Const {
     const val BASE_URL = "http://smartcity.hanoi.gov.vn/Home/"
     val hanoi = LatLng(21.028511, 105.804817)
 
-    const val MAP_UPDATE_INTERVAL = 3 * 60 * 60 * 1000      //3 Hours
-    const val STATS_UPDATE_INTERVAL = 1 * 60 * 60 * 1000    //1 Hours
+    const val MAP_UPDATE_INTERVAL = 1 * 60 * 60 * 1000      //1 Hours
+    const val STATS_UPDATE_INTERVAL = 30 * 60 * 1000    //30 Minutes
 
 
     object Pref {

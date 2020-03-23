@@ -18,14 +18,11 @@ import com.ttmagic.corona.util.Const
 import kotlinx.coroutines.launch
 
 class StatsWorldVm(app: Application) : BaseViewModel(app) {
-    val title = MutableLiveData<String>("Thống kê dịch Covid-19 trên thế giới")
+    val title = MutableLiveData<String>("Thống kê dịch Covid-19 trên Thế giới")
     val stats = MutableLiveData<ArrayList<StatsWorld>>()
 
     val summary =
         MutableLiveData<Summary>(Pref.getObj(Const.Pref.SUMMARY_INFO, Summary::class.java))
-   /* val totalConfirmed = Transformations.map(stats) { it.sumBy { it.TotalCases.toInt() } }
-    val totalRecovered = MutableLiveData<String>("17")
-    val totalDeath = Transformations.map(stats) { it.sumBy { it.TotalDeadths.toInt() } }*/
 
     val lastUpdate = MutableLiveData<Long>()
 
