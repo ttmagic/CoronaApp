@@ -17,22 +17,14 @@ data class MapResponse(
 data class Patient(
     @PrimaryKey
     val Id: String,
-    val AccountId: String?,
     val Address: String?,        //Full dia chi.
-    val Age: String?,           //Tuoi
-    val FullName: String?,       //Ten Benh nhan
-    val Gender: String?,
-    val IdentificationCard: String?,
     val IsolateAddress: String?,
     val IsolateDate: String?,       //Ngay cach ly
-    val Level: Int,
     val LocationLat: String?,       //Lat
     val LocationLng: String?,       //Lng
     val Locations: List<Location>?,
-    val National: String?,
     val ParentId: String?,      //Id cua parent. Khong co la F0.
-    val PhoneNumber: String?,
-    val Status: Int?,         //0-->5, F0 --> F5
+    val Status: Int?,         //1-->5, F0 --> F5
     val Title: String,      //BN-XX-XX
     val UnFollow: Boolean?,
     val Visits: String?    //Summaries of List<Location>
@@ -68,16 +60,7 @@ class Converters {
     "ParentId": null,
     "Title": "BN-51",
     "FullName": "Tạ Phương Thảo",
-    "Age": "39",
-    "Gender": "nữ",
     "Address": "Tòa T3 0602 số 3 Lương Yên - Hiện đang ở bệnh viện nhiệt đới TW CS 2",
-    "Ward": "Bạch Đằng",
-    "District": "Hai Bà Trưng",
-    "City": "Hà Nội",
-    "National": "",
-    "PhoneNumber": "903230304",
-    "IdentificationCard": "",
-    "Element": "",
     "IsolateDate": "3/14/2020",
     "IsolateType": "",
     "IsolateAddress": "",
@@ -149,9 +132,7 @@ class Converters {
     }
     ],
     "Relation": null,
-    "Level": 0,
     "StatusText": null,
     "AccountId": "",
     "Id": "06A07E21-9E67-449D-9C97-0C87D7F3ADF6",
-    "CustomProperties": {}
 }*/

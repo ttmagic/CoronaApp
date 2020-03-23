@@ -47,7 +47,7 @@
                 android:layout_marginTop="2dp"
                 android:drawableStart="@drawable/ic_f0"
                 android:drawablePadding="5dp"
-                android:text="@{`F0: \t`+viewModel.f0+` ca`}"
+                android:text="@{`F0: \t`+viewModel.f0+` người`}"
                 android:textColor="@color/colorBlack"
                 android:textSize="12sp" />
 
@@ -57,7 +57,7 @@
                 android:layout_marginTop="2dp"
                 android:drawableStart="@drawable/ic_f1"
                 android:drawablePadding="5dp"
-                android:text="@{`F1: \t`+viewModel.f1+` ca`}"
+                android:text="@{`F1: \t`+viewModel.f1+` người`}"
                 android:textColor="@color/colorBlack"
                 android:textSize="12sp" />
 
@@ -67,7 +67,7 @@
                 android:layout_marginTop="2dp"
                 android:drawableStart="@drawable/ic_f2"
                 android:drawablePadding="5dp"
-                android:text="@{`F2: \t`+viewModel.f2+` ca`}"
+                android:text="@{`F2: \t`+viewModel.f2+` người`}"
                 android:textColor="@color/colorBlack"
                 android:textSize="12sp" />
 
@@ -78,6 +78,16 @@
                 android:drawableStart="@drawable/ic_f3"
                 android:drawablePadding="5dp"
                 android:text="F3/4/5"
+                android:textColor="@color/colorBlack"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:drawableStart="@drawable/ic_place"
+                android:drawablePadding="5dp"
+                android:text="F0 đã đến"
                 android:textColor="@color/colorBlack"
                 android:textSize="12sp" />
         </LinearLayout>

@@ -6,6 +6,7 @@ import android.content.Context
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.base.mvvm.BaseFragment
 import com.base.util.*
 import com.google.android.gms.location.LocationServices
@@ -23,8 +24,10 @@ import com.ttmagic.corona.databinding.FragmentMapBinding
 import com.ttmagic.corona.model.Patient
 import com.ttmagic.corona.util.Const
 import com.ttmagic.corona.util.GpsUtils
+import com.ttmagic.corona.util.formatDate
 import kotlinx.android.synthetic.main.fragment_map.*
 import kotlinx.android.synthetic.main.my_info_window.view.*
+import kotlinx.coroutines.launch
 
 class MapFragment : BaseFragment<MapVm, FragmentMapBinding>(R.layout.fragment_map),
     OnMapReadyCallback {
@@ -61,19 +64,6 @@ class MapFragment : BaseFragment<MapVm, FragmentMapBinding>(R.layout.fragment_ma
         }
     }
 
-    private fun showFilterDialog() {
-        val temp = viewModel.filtersChecked.clone()
-        AlertDialog.Builder(requireContext())
-            .setTitle("Bộ lọc hiển thị")
-            .setMultiChoiceItems(viewModel.filters, temp) { _, pos, checked ->
-                temp[pos] = checked
-            }.setPositiveButton("Áp dụng") { dialog, _ ->
-                viewModel.applyFilter(temp)
-                dialog.dismiss()
-            }.show()
-    }
-
-
     override fun observeData() {
         super.observeData()
         Bus.get(Const.Bus.GPS).observe(viewLifecycleOwner, Observer {
@@ -83,7 +73,11 @@ class MapFragment : BaseFragment<MapVm, FragmentMapBinding>(R.layout.fragment_ma
 
         viewModel.listDisplay.observe {
             Logger.d("Observe: ${it?.size}")
-            it?.let { inflateOnMap(it) }
+            it?.let {
+                lifecycleScope.launch {
+                    inflateOnMap(it)
+                }
+            }
         }
     }
 
@@ -91,7 +85,7 @@ class MapFragment : BaseFragment<MapVm, FragmentMapBinding>(R.layout.fragment_ma
      * Display corresponding list patient on map.
      */
     private fun inflateOnMap(list: List<Patient>) {
-        val placeVisited = BitmapDescriptorFactory.fromResource(R.drawable.ic_place)
+        val f0Visited = BitmapDescriptorFactory.fromResource(R.drawable.ic_place)
         val f0 = BitmapDescriptorFactory.fromResource(R.drawable.ic_f0)
         val f1 = BitmapDescriptorFactory.fromResource(R.drawable.ic_f1)
         val f2 = BitmapDescriptorFactory.fromResource(R.drawable.ic_f2)
@@ -103,24 +97,44 @@ class MapFragment : BaseFragment<MapVm, FragmentMapBinding>(R.layout.fragment_ma
             val lng = it.LocationLng?.toDoubleOrNull()
             if (lat != null && lng != null) {
                 val icon = when (it.Status) {
-                    0 -> placeVisited
-                    1 -> f0
-                    2 -> f1
-                    3 -> f2
+                    Const.STATUS_F0 -> f0
+                    Const.STATUS_F1 -> f1
+                    Const.STATUS_F2 -> f2
                     else -> f3
                 }
-                var snippet = it.Address?.replace(" - Cách ly", "\nCách ly")
-                if (!it.Visits.isNullOrBlank()) {
-                    snippet += "\nLộ trình:\n${it.Visits.replace("</br>", "")
-                        .replace("<br>", "\n")}"
+                val title = "Trường hợp: ${it.Title}"
+                var snippet = "Địa chỉ: ${it.Address}"
+                it.IsolateDate?.let { date ->
+                    snippet += "\nNgày cách ly: $date"
+                }
+                it.Visits?.let { visit ->
+                    snippet += "\nLộ trình:\n${visit.replace("<br>", "\n".replace("</br>", ""))}"
                 }
 
                 val marker = MarkerOptions().position(LatLng(lat, lng))
-                    .draggable(false)
                     .icon(icon)
-                    .title("Trường hợp: ${it.Title}")
-                    .snippet("Địa chỉ: $snippet")
-                markers.add(marker)
+                    .title(title)
+                    .snippet(snippet)
+
+                if (it.Status == Const.STATUS_F0 && !viewModel.filtersChecked[0]) {
+                    //Do nothing when not display F0 but item is F0.
+                } else {
+                    markers.add(marker)
+                }
+
+                if (it.Status == Const.STATUS_F0 && viewModel.filtersChecked[4]) {    //Only display places of F0 when setting true.
+                    it.Locations?.forEach { place ->
+                        val placeLat = place.Lat?.toDoubleOrNull()
+                        val placeLng = place.Lng?.toDoubleOrNull()
+                        if (placeLat != null && placeLng != null) {
+                            val mark = MarkerOptions().position(LatLng(placeLat, placeLng))
+                                .icon(f0Visited)
+                                .title(title)
+                                .snippet(place.Timestamp?.formatDate() + ": " + place.Visits)
+                            markers.add(mark)
+                        }
+                    }
+                }
             }
         }
         if (::mMap.isInitialized) {
@@ -128,6 +142,18 @@ class MapFragment : BaseFragment<MapVm, FragmentMapBinding>(R.layout.fragment_ma
             addCurrPosMarker()
             markers.forEach { mMap.addMarker(it) }
         }
+    }
+
+    private fun showFilterDialog() {
+        val temp = viewModel.filtersChecked.clone()
+        AlertDialog.Builder(requireContext())
+            .setTitle("Bộ lọc hiển thị")
+            .setMultiChoiceItems(viewModel.filters, temp) { _, pos, checked ->
+                temp[pos] = checked
+            }.setPositiveButton("Áp dụng") { dialog, _ ->
+                viewModel.applyFilter(temp)
+                dialog.dismiss()
+            }.show()
     }
 
     private fun checkLocationPermission(manually: Boolean) {
@@ -149,17 +175,15 @@ class MapFragment : BaseFragment<MapVm, FragmentMapBinding>(R.layout.fragment_ma
         val marker = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_my_location)
         val fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         fusedLocationClient.lastLocation.addOnSuccessListener {
-            if (it != null) {
-                mLastUserPos = LatLng(it.latitude, it.longitude)
+            it?.run {
+                mLastUserPos = LatLng(latitude, longitude)
                 Pref.putObj(Const.Pref.LAST_USER_POSITION, mLastUserPos)
                 if (::mMap.isInitialized) {
                     mMap.addMarker(MarkerOptions().icon(marker).position(mLastUserPos!!))
                 }
             }
-
         }
     }
-
 
     /**
      * Animate mapView so user position in center of the screen.

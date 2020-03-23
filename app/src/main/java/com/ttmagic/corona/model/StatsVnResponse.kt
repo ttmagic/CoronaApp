@@ -10,11 +10,11 @@ data class StatsVnResponse(
 
 @Entity
 data class StatsVn(
+    @PrimaryKey
+    val Id: String,
     val Cases: String,
     val City: String,
-    val Deaths: String,
-    @PrimaryKey
-    val Id: String
+    val Deaths: String
 ): com.base.mvvm.Entity() {
     override val uniqueId: Any
         get() = Id

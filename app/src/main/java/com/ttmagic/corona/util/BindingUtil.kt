@@ -12,20 +12,25 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-@BindingAdapter("app:imgUrl")
-fun ImageView.setImgUrl(url: String?) {
-    url?.let {
-        val into = Glide.with(context)
-            .load(it)
-            .error(R.drawable.ic_placeholder)
-            .transform(MultiTransformation(CenterCrop(), RoundedCorners(25)))
-            .into(this)
-        into
+//Input: "yyyy-MM-dd'T'HH:mm:ss"
+fun String?.formatDate(): String {
+    if (this == null) return ""
+    return try {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val date = inputFormat.parse(this)
+        outputFormat.format(date)
+    } catch (e: Exception) {
+        this
     }
 }
 
 @BindingAdapter("app:lastUpdate")
-fun TextView.setLastUpdate(millis: Long) {
+fun TextView.setLastUpdate(millis: Long?) {
+    if (millis == null){
+        text = ""
+        return
+    }
     val date = Date(millis)
     val format = SimpleDateFormat("HH:mm - dd/MM/yyyy", Locale.getDefault())
     text = "Cập nhật lần cuối: ${format.format(date)}"

@@ -9,6 +9,8 @@ data class StatsWorldResponse(
 
 @Entity
 data class StatsWorld(
+    @PrimaryKey
+    val Id: String,
     val ActiveCase: String,
     val CasesHn: String,
     val CasesVn: String,
@@ -17,8 +19,6 @@ data class StatsWorld(
     val DeadHn: String,
     val DeadVn: String,
     val DeadWorld: String,
-    @PrimaryKey
-    val Id: String,
     val NewCases: String,
     val NewDeaths: String,
     val RecoveredHn: String,
