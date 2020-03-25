@@ -1,10 +1,13 @@
 package com.ttmagic.corona.ui.statsvn
 
 import com.base.mvvm.BaseFragment
+import com.base.util.Bus
 import com.base.util.addItemDividers
 import com.ttmagic.corona.BR
 import com.ttmagic.corona.R
 import com.ttmagic.corona.databinding.FragmentStatsVnBinding
+import com.ttmagic.corona.model.Summary
+import com.ttmagic.corona.util.Const
 import kotlinx.android.synthetic.main.fragment_stats_vn.*
 
 class StatsVnFragment :
@@ -17,15 +20,14 @@ class StatsVnFragment :
     override fun initView(binding: FragmentStatsVnBinding) {
         rvStatistic.addItemDividers()
         rvStatistic.adapter = adapter
-        swipeRefreshLayout.setOnRefreshListener {
-            viewModel.getStatsVn()
-        }
     }
 
     override fun observeData() {
         viewModel.stats.observe {
             adapter.submitList(it)
-            swipeRefreshLayout.setRefreshing(false)
+        }
+        Bus.get(Const.Bus.SUMMARY_UPDATED).observe {
+            viewModel.summary.postValue(it as Summary?)
         }
     }
 }

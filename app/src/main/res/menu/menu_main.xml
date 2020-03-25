@@ -6,12 +6,12 @@
         android:title="Bản đồ" />
 
     <item
-        android:id="@+id/statisticFragment"
+        android:id="@+id/statsVnFragment"
         android:icon="@drawable/ic_statistic"
         android:title="Việt Nam" />
 
     <item
-        android:id="@+id/newsFragment"
+        android:id="@+id/statsWorldFragment"
         android:icon="@drawable/ic_earth"
         android:title="Thế giới" />
 </menu>

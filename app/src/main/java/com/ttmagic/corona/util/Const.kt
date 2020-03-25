@@ -19,5 +19,6 @@ object Const {
 
     object Bus {
         const val GPS = "gps"
+        const val SUMMARY_UPDATED = "SUMMARY_UPDATED"
     }
 }

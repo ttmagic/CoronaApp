@@ -18,16 +18,12 @@ class StatsWorldFragment :
     override fun initView(binding: FragmentStatsWorldBinding) {
         rvStatistic.addItemDividers()
         rvStatistic.adapter = adapter
-        swipeRefreshLayout.setOnRefreshListener {
-            viewModel.getStatsWorld()
-        }
     }
 
 
     override fun observeData() {
         viewModel.stats.observe {
             adapter.submitList(it)
-            swipeRefreshLayout.setRefreshing(false)
         }
     }
 }

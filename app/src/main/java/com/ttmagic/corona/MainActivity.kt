@@ -10,6 +10,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.base.mvvm.BaseActivity
 import com.base.util.Bus
 import com.base.util.Logger
+import com.ttmagic.corona.ui.map.MapVm
 import com.ttmagic.corona.ui.statsworld.StatsWorldVm
 import com.ttmagic.corona.util.Const
 import com.ttmagic.corona.util.GpsUtils
@@ -32,7 +33,7 @@ class MainActivity : BaseActivity() {
         }
 
         ViewModelProvider(this).get(StatsWorldVm::class.java)
-        //To trigger init method of StatsWorldVm
+        //To trigger init method of StatsWorldVm, MapVm
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

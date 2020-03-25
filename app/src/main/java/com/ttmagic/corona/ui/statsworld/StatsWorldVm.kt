@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.base.mvvm.BaseViewModel
 import com.base.mvvm.onSucceed
+import com.base.util.Bus
 import com.base.util.Pref
 import com.ttmagic.corona.model.Info
 import com.ttmagic.corona.model.StatsWorld
@@ -52,6 +53,7 @@ class StatsWorldVm(app: Application) : BaseViewModel(app) {
         )
         Pref.putObj(Const.Pref.SUMMARY_INFO, info)
         summary.postValue(info)
+        Bus.get(Const.Bus.SUMMARY_UPDATED).postValue(info)
     }
 
     override fun onFragmentCreated() {
