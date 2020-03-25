@@ -133,8 +133,12 @@ class MapFragment : BaseFragment<MapVm, FragmentMapBinding>(R.layout.fragment_ma
                 mLastUserPos = LatLng(latitude, longitude)
                 Pref.putObj(Const.Pref.LAST_USER_POSITION, mLastUserPos)
                 if (::mMap.isInitialized) {
-                    userMarker =
-                        mMap.addMarker(MarkerOptions().icon(userPosMarker).position(mLastUserPos!!))
+                    if (userMarker == null) {
+                        userMarker =
+                            mMap.addMarker(MarkerOptions().icon(userPosMarker).position(mLastUserPos!!))
+                    } else {
+                        userMarker!!.position = mLastUserPos
+                    }
                 }
             }
         }
