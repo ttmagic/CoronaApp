@@ -7,6 +7,7 @@ import com.ttmagic.corona.BR
 import com.ttmagic.corona.R
 import com.ttmagic.corona.databinding.FragmentStatsVnBinding
 import com.ttmagic.corona.model.Summary
+import com.ttmagic.corona.ui.statsworld.addMarginTopEqualStatusBarHeight
 import com.ttmagic.corona.util.Const
 import kotlinx.android.synthetic.main.fragment_stats_vn.*
 
@@ -18,6 +19,7 @@ class StatsVnFragment :
     private val adapter = StatsVnAdapter()
 
     override fun initView(binding: FragmentStatsVnBinding) {
+        rootView.addMarginTopEqualStatusBarHeight()
         rvStatistic.addItemDividers()
         rvStatistic.adapter = adapter
     }

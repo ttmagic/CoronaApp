@@ -51,7 +51,7 @@
                 android:id="@+id/tvConfirmedTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginEnd="30dp"
                 android:text="Bị nhiễm"
                 app:layout_constraintEnd_toStartOf="@+id/tvDeathTitle"
@@ -65,18 +65,19 @@
                 android:layout_height="wrap_content"
                 android:letterSpacing="-0.05"
                 android:textColor="@color/colorBlue"
-                android:textSize="30sp"
+                android:textSize="28sp"
                 app:layout_constraintEnd_toEndOf="@+id/tvConfirmedTitle"
                 app:layout_constraintStart_toStartOf="@+id/tvConfirmedTitle"
                 app:layout_constraintTop_toBottomOf="@+id/tvConfirmedTitle"
                 app:textNumber="@{confirmed}"
-                tools:text="123456" />
+                tools:text="123,456" />
 
             <TextView
                 android:id="@+id/tvDeathTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tử vong"
+                android:layout_marginStart="15dp"
                 app:layout_constraintEnd_toStartOf="@+id/tvRecoveredTitle"
                 app:layout_constraintStart_toEndOf="@+id/tvConfirmedTitle"
                 app:layout_constraintTop_toTopOf="@id/tvConfirmedTitle" />
@@ -86,16 +87,15 @@
                 style="@style/TextAppearance.MaterialComponents.Headline4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
                 android:letterSpacing="-0.05"
                 android:textColor="@color/colorRed"
-                android:textSize="30sp"
+                android:textSize="28sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/tvDeathTitle"
                 app:layout_constraintStart_toStartOf="@+id/tvDeathTitle"
                 app:layout_constraintTop_toBottomOf="@+id/tvDeathTitle"
                 app:textNumber="@{death}"
-                tools:text="123456" />
+                tools:text="123,456" />
 
             <TextView
                 android:id="@+id/tvRecoveredTitle"
@@ -114,12 +114,12 @@
                 android:layout_height="wrap_content"
                 android:letterSpacing="-0.05"
                 android:textColor="@color/colorBlue"
-                android:textSize="30sp"
+                android:textSize="28sp"
                 app:layout_constraintEnd_toEndOf="@+id/tvRecoveredTitle"
                 app:layout_constraintStart_toStartOf="@+id/tvRecoveredTitle"
                 app:layout_constraintTop_toBottomOf="@+id/tvRecoveredTitle"
                 app:textNumber="@{recovered}"
-                tools:text="123456" />
+                tools:text="123,456" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
