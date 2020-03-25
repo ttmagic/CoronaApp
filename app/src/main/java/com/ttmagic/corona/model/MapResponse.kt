@@ -17,22 +17,19 @@ data class MapResponse(
 data class Patient(
     @PrimaryKey
     val Id: String,
+    val Code: String,      //BN-XX-XX
+    val Type: Int?,         //1-->5, F0 --> F5
     val Address: String?,        //Full dia chi.
-    val IsolateAddress: String?,
-    val IsolateDate: String?,       //Ngay cach ly
-    val LocationLat: String?,       //Lat
-    val LocationLng: String?,       //Lng
+    val DetectDate: String?,       //Ngay cach ly
+    val Lat: String?,       //Lat
+    val Lng: String?,       //Lng
     val Locations: List<Location>?,
     val ParentId: String?,      //Id cua parent. Khong co la F0.
-    val Status: Int?,         //1-->5, F0 --> F5
-    val Title: String,      //BN-XX-XX
-    val UnFollow: Boolean?,
     val Visits: String?    //Summaries of List<Location>
 )
 
 @Entity
 data class Location(
-    val id: String?,
     val Lat: String?,
     val Lng: String?,
     val Timestamp: String?,
@@ -57,82 +54,29 @@ class Converters {
 
 /*
 {
-    "ParentId": null,
-    "Title": "BN-51",
-    "FullName": "Tạ Phương Thảo",
-    "Address": "Tòa T3 0602 số 3 Lương Yên - Hiện đang ở bệnh viện nhiệt đới TW CS 2",
-    "IsolateDate": "3/14/2020",
-    "IsolateType": "",
-    "IsolateAddress": "",
-    "LocationLat": "21.0284956",
-    "LocationLng": "105.8232054",
-    "Status": 1,
-    "UnFollow": false,
-    "UnFollowDate": null,
-    "Name": null,
-    "InfectedDay": null,
-    "Type": null,
-    "State": null,
-    "Home": null,
-    "Visits": "Đến 200 Nguyễn Sơn, Long Biên<br>Đến Paris Pháp<br>Đến Nhà hàng Lộc Vừng, Long BIên<br>Đến 20 Núi Trúc, Ba Đình<br>Điều trị tại bệnh viện Nhiệt đới Trung Ương cơ sở 2<br>Đến 200 Nguyễn Sơn, Long Biên<br>Đến 20 Núi Trúc, Ba Đình<br>Đến sân bay Nội Bài<br>Đến khách Sạn Hà Nội, Giảng Võ",
-    "Locations": [
-    {
-        "Lat": 21.04487,
-        "Lng": 105.882149,
-        "Visits": "Đến 200 Nguyễn Sơn, Long Biên",
-        "Timestamp": "3/10/2020"
-    },
-    {
-        "Lat": 48.85718,
-        "Lng": 2.34141,
-        "Visits": "Đến Paris Pháp",
-        "Timestamp": "3/4/2020"
-    },
-    {
-        "Lat": 21.029916,
-        "Lng": 105.826778,
-        "Visits": "Đến Nhà hàng Lộc Vừng, Long BIên",
-        "Timestamp": "3/11/2020"
-    },
-    {
-        "Lat": 21.028225,
-        "Lng": 105.824257,
-        "Visits": "Đến 20 Núi Trúc, Ba Đình",
-        "Timestamp": "3/11/2020"
-    },
-    {
-        "Lat": 21.131486,
-        "Lng": 105.774393,
-        "Visits": "Điều trị tại bệnh viện Nhiệt đới Trung Ương cơ sở 2",
-        "Timestamp": "3/13/2020"
-    },
-    {
-        "Lat": 21.04487,
-        "Lng": 105.882149,
-        "Visits": "Đến 200 Nguyễn Sơn, Long Biên",
-        "Timestamp": "3/11/2020"
-    },
-    {
-        "Lat": 21.028225,
-        "Lng": 105.824257,
-        "Visits": "Đến 20 Núi Trúc, Ba Đình",
-        "Timestamp": "3/10/2020"
-    },
-    {
-        "Lat": 21.21401,
-        "Lng": 105.79823,
-        "Visits": "Đến sân bay Nội Bài",
-        "Timestamp": "3/10/2020"
-    },
-    {
-        "Lat": 21.04487,
-        "Lng": 105.882149,
-        "Visits": "Đến khách Sạn Hà Nội, Giảng Võ",
-        "Timestamp": "3/12/2020"
-    }
-    ],
-    "Relation": null,
-    "StatusText": null,
-    "AccountId": "",
-    "Id": "06A07E21-9E67-449D-9C97-0C87D7F3ADF6",
+            "Id": "2F560D97-C8F5-426C-BC8D-F035B65C52EE",
+            "Code": "BN-55",
+            "Type": 0,
+            "DetectDate": "14/03/2020",
+            "Source": null,
+            "Address": "Khám sàng lọc tại sân bay nội bài - Cách ly Bệnh viện NĐTƯ 2",
+            "IsolateAddress": null,
+            "Lat": 21.131486,
+            "Lng": 105.774393,
+            "Visits": "14/03/2020 : Đến sân bay Nội Bài trên chuyến bay VN0018<br>14/03/2020 : Điều trị tại bệnh viện Nhiệt đới Trung Ương cơ sở 2",
+            "Locations": [
+                {
+                    "Lat": 21.217977,
+                    "Lng": 105.792519,
+                    "Visits": "Đến sân bay Nội Bài trên chuyến bay VN0018",
+                    "Timestamp": "2020-03-14T00:00:00"
+                },
+                {
+                    "Lat": 21.131486,
+                    "Lng": 105.774393,
+                    "Visits": "Điều trị tại bệnh viện Nhiệt đới Trung Ương cơ sở 2",
+                    "Timestamp": "2020-03-14T00:00:00"
+                }
+            ]
+        }
 }*/

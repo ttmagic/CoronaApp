@@ -34,6 +34,7 @@ import com.ttmagic.corona.util.GpsUtils
 import kotlinx.android.synthetic.main.fragment_map.*
 import kotlinx.android.synthetic.main.my_info_window.view.*
 
+val userPosMarker = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_my_location)
 val f0Visited by lazy { BitmapDescriptorFactory.fromResource(R.drawable.ic_place) }
 val f0 by lazy { BitmapDescriptorFactory.fromResource(R.drawable.ic_f0) }
 val f1 by lazy { BitmapDescriptorFactory.fromResource(R.drawable.ic_f1) }
@@ -49,6 +50,7 @@ class MapFragment : BaseFragment<MapVm, FragmentMapBinding>(R.layout.fragment_ma
     private lateinit var mMap: GoogleMap
     private var mLastUserPos: LatLng? =
         Pref.getObj(Const.Pref.LAST_USER_POSITION, LatLng::class.java)
+    private var userMarker: Marker? = null
 
     override fun onMapReady(map: GoogleMap) {
         mMap = map
@@ -125,14 +127,14 @@ class MapFragment : BaseFragment<MapVm, FragmentMapBinding>(R.layout.fragment_ma
      */
     @SuppressLint("MissingPermission")
     private fun addCurrPosMarker() {
-        val marker = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_my_location)
         val fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         fusedLocationClient.lastLocation.addOnSuccessListener {
             it?.run {
                 mLastUserPos = LatLng(latitude, longitude)
                 Pref.putObj(Const.Pref.LAST_USER_POSITION, mLastUserPos)
                 if (::mMap.isInitialized) {
-                    mMap.addMarker(MarkerOptions().icon(marker).position(mLastUserPos!!))
+                    userMarker =
+                        mMap.addMarker(MarkerOptions().icon(userPosMarker).position(mLastUserPos!!))
                 }
             }
         }
@@ -178,7 +180,7 @@ class MyInfoWindow(private val context: Context) : GoogleMap.InfoWindowAdapter {
         view.tvTitle.text = marker.title
         val span = SpannableString(marker.snippet).apply {
             highlight("Địa chỉ:")
-            highlight("Ngày cách ly:")
+            highlight("Ngày phát hiện:")
             highlight("Lộ trình:")
         }
         view.tvSnippet.text = span

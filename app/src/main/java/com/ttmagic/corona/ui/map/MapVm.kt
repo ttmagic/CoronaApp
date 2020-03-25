@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.base.mvvm.BaseViewModel
 import com.base.mvvm.onSucceed
+import com.base.util.Logger
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -48,7 +49,7 @@ class MapVm(app: Application) : BaseViewModel(app) {
 
         //Load data online.
         network().getPatientMap().onSucceed { res ->
-            patients = res.Data.filter { it.Status != null }
+            patients = res.Data.filter { it.Type != null }
             if (patients.isNullOrEmpty()) return@onSucceed
             viewModelScope.launch {
                 localDb.userDao().addAll(patients!!)
@@ -64,43 +65,44 @@ class MapVm(app: Application) : BaseViewModel(app) {
 
         val list = arrayListOf<Patient>()
         if (filtersChecked[0] || filtersChecked[4]) {    //F0, F0 visited places.
-            val f0s = patients!!.filter { it.Status == Const.STATUS_F0 }
+            val f0s = patients!!.filter { it.Type == Const.STATUS_F0 }
             f0.postValue(f0s.size)
             list.addAll(f0s)
         }
         if (filtersChecked[1]) {    //F1
-            val f1s = patients!!.filter { it.Status == Const.STATUS_F1 }
+            val f1s = patients!!.filter { it.Type == Const.STATUS_F1 }
             f1.postValue(f1s.size)
             list.addAll(f1s)
         }
         if (filtersChecked[2]) {    //F2
-            val f2s = patients!!.filter { it.Status == Const.STATUS_F2 }
+            val f2s = patients!!.filter { it.Type == Const.STATUS_F2 }
             f2.postValue(f2s.size)
             list.addAll(f2s)
         }
         if (filtersChecked[3]) {    //F3/4/5
-            val f345s = patients!!.filter { it.Status != null && it.Status >= Const.STATUS_F3 }
+            val f345s = patients!!.filter { it.Type != null && it.Type >= Const.STATUS_F3 }
             list.addAll(f345s)
         }
         createMarkers(list)
     }
 
     private fun createMarkers(list: List<Patient>) = viewModelScope.launch(Dispatchers.Default) {
+        Logger.d("createMarkers list size = ${list.size}")
         val markers = arrayListOf<MarkerOptions>()
         list.forEach {
-            val lat = it.LocationLat?.toDoubleOrNull()
-            val lng = it.LocationLng?.toDoubleOrNull()
+            val lat = it.Lat?.toDoubleOrNull()
+            val lng = it.Lng?.toDoubleOrNull()
             if (lat != null && lng != null) {
-                val icon = when (it.Status) {
+                val icon = when (it.Type) {
                     Const.STATUS_F0 -> com.ttmagic.corona.ui.map.f0
                     Const.STATUS_F1 -> com.ttmagic.corona.ui.map.f1
                     Const.STATUS_F2 -> com.ttmagic.corona.ui.map.f2
                     else -> f3
                 }
-                val title = "Trường hợp: ${it.Title}"
+                val title = "Trường hợp: ${it.Code}"
                 var snippet = "Địa chỉ: ${it.Address}"
-                if (!it.IsolateDate.isNullOrBlank()) {
-                    snippet += "\nNgày cách ly: ${it.IsolateDate.formatDate("MM/dd/yyyy")}"
+                if (!it.DetectDate.isNullOrBlank()) {
+                    snippet += "\nNgày phát hiện: ${it.DetectDate}"
                 }
                 if (!it.Visits.isNullOrBlank()) {
                     snippet += "\nLộ trình:\n${it.Visits.replace(
@@ -114,13 +116,13 @@ class MapVm(app: Application) : BaseViewModel(app) {
                     .title(title)
                     .snippet(snippet)
 
-                if (it.Status == Const.STATUS_F0 && !filtersChecked[0]) {
+                if (it.Type == Const.STATUS_F0 && !filtersChecked[0]) {
                     //Do nothing when not display F0 but item is F0.
                 } else {
                     markers.add(marker)
                 }
 
-                if (it.Status == Const.STATUS_F0 && filtersChecked[4]) {    //Only display places of F0 when setting true.
+                if (it.Type == Const.STATUS_F0 && filtersChecked[4]) {    //Only display places of F0 when setting true.
                     it.Locations?.forEach { place ->
                         val placeLat = place.Lat?.toDoubleOrNull()
                         val placeLng = place.Lng?.toDoubleOrNull()

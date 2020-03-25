@@ -10,8 +10,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.base.mvvm.BaseActivity
 import com.base.util.Bus
 import com.base.util.Logger
-import com.base.util.gone
-import com.base.util.show
 import com.ttmagic.corona.ui.statsworld.StatsWorldVm
 import com.ttmagic.corona.util.Const
 import com.ttmagic.corona.util.GpsUtils
@@ -35,11 +33,6 @@ class MainActivity : BaseActivity() {
 
         ViewModelProvider(this).get(StatsWorldVm::class.java)
         //To trigger init method of StatsWorldVm
-    }
-
-
-    fun showLoading(loading: Boolean) {
-        if (loading) progressBar.show() else progressBar.gone()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
