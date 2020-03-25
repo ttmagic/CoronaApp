@@ -92,6 +92,7 @@ class MapFragment : BaseFragment<MapVm, FragmentMapBinding>(R.layout.fragment_ma
     private fun updateMapMarkers(markers: List<MarkerOptions>?) {
         markers?.let {
             if (::mMap.isInitialized) {
+                userMarker = null
                 mMap.clear()
                 addCurrPosMarker()
                 it.forEach { item -> mMap.addMarker(item) }
